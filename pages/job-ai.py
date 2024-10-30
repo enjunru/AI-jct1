@@ -14,10 +14,10 @@ from langchain.prompts import PromptTemplate
 import streamlit as st
 st.title("檀健次为您进行就业岗位智能问答")
 # 缓存历史对话
-if "history" not in st.session_state:
-    st.session_state.history = []
+if "history1" not in st.session_state:
+    st.session_state.history1 = []
 else:
-    for ele in st.session_state.history:
+    for ele in st.session_state.history1:
         with st.chat_message(ele["role"]):
             st.write(ele["content"])
 
@@ -43,7 +43,7 @@ problem = st.chat_input("请输入你的问题")
 if problem:
     with st.chat_message("user"):
         st.write(problem)
-    st.session_state.history.append({"role":"user","content":problem})
+    st.session_state.history1.append({"role":"user","content":problem})
     # 先通过sql_chain这个链生成SQL语句
     sql = sql_chain.invoke({"question":problem})
     # 为了把生成的SQL中的无用信息去除，如果不取出 SQL执行一定会报错
@@ -58,4 +58,4 @@ if problem:
     })
     with st.chat_message("assistant"):
         st.write(beau_result["text"])
-    st.session_state.history.append({"role": "assistant", "content": beau_result["text"]})
+    st.session_state.history1.append({"role": "assistant", "content": beau_result["text"]})
